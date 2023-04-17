@@ -7,4 +7,10 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
+class MuscleGroup(models.Model):
+    name = models.CharField(max_length=500, null=False, blank=False)
+
+    def __str__(self):
+        return self.name
+
 # Create your models here.

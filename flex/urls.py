@@ -3,9 +3,11 @@ from django.conf import settings
 from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
 from .views import *
+# from flex import views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
+router.register(r'musclegroup', MuscleGroupViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

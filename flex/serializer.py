@@ -2,6 +2,7 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from .models import CustomUser
+from .models import *
 
 class CustomUserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -22,3 +23,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+class MuscleGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MuscleGroup
+        fields = ['id', 'name']
