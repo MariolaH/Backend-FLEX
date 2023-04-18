@@ -28,3 +28,8 @@ class MuscleGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = MuscleGroup
         fields = ['id', 'name']
+
+class ExerciseListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExerciseList()
+        fields = ['id', 'name']

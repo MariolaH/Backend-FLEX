@@ -30,4 +30,7 @@ class MuscleGroupViewSet(viewsets.ModelViewSet):
     queryset = MuscleGroup.objects.all()
     serializer_class = MuscleGroupSerializer
 
+class ExerciseListViewSet(viewsets.ModelViewSet):
+    queryset = ExerciseList.objects.all()
+    serializer_class = ExerciseListSerializer
 # Create your views here.
