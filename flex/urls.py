@@ -9,6 +9,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'musclegroup', MuscleGroupViewSet)
 router.register(r'exerciselist', ExerciseListViewSet)
+router.register(r'workout', WorkoutViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

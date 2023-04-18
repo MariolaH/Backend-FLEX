@@ -33,4 +33,12 @@ class MuscleGroupViewSet(viewsets.ModelViewSet):
 class ExerciseListViewSet(viewsets.ModelViewSet):
     queryset = ExerciseList.objects.all()
     serializer_class = ExerciseListSerializer
+
+class WorkoutViewSet(viewsets.ModelViewSet):
+    queryset = Workout.objects.all()
+
+    def get_serializer_class(self):
+        if self.action in ["create", "update", "partial_update", "destroy"]:
+            return WorkoutWriteSerializer
+        return WorkoutReadSerializer
 # Create your views here.

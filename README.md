@@ -37,3 +37,12 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https://.*\.gitpod\.io$",
 ]
 ```
+
+
+# Dump data commands
+# https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata
+
+### Dump commands for each.
+./manage.py dumpdata flex.exerciselist > flex/fixtures/exercises.json
+./manage.py dumpdata flex.musclegroup > flex/fixtures/musclegroup.json
+./manage.py dumpdata flex.exerciselist_muscles > flex/fixtures/exercise_muscles.json

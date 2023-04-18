@@ -4,7 +4,33 @@ from rest_framework import serializers
 from .models import CustomUser
 from .models import *
 
+class MuscleGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MuscleGroup
+        fields = ['id', 'name']
+
+class ExerciseListSerializer(serializers.ModelSerializer):
+    muscles = MuscleGroupSerializer(many=True)
+    class Meta:
+        model = ExerciseList
+        fields = ['id', 'name', 'muscles']
+
+class WorkoutReadSerializer(serializers.ModelSerializer):
+    exercises = ExerciseListSerializer(many=True)
+    class Meta:
+        model = Workout
+        fields = ['id', 'name', 'exercises']
+
+class WorkoutWriteSerializer(serializers.ModelSerializer):
+    exercises = ExerciseListSerializer(many=True)
+    class Meta:
+        model = Workout
+        fields = ['id', 'name', 'exercises']
+
+        # ./manage.py dumpdata admin.logentry > logentry.json
+
 class CustomUserSerializer(serializers.ModelSerializer):
+    workouts = WorkoutWriteSerializer(many=True)
     email = serializers.EmailField(
         required=True
     )
@@ -13,7 +39,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'password', 'first_name', 'last_name')
+        fields = ('email', 'username', 'password', 'first_name', 'last_name', 'workouts')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -23,13 +49,3 @@ class CustomUserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
-
-class MuscleGroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MuscleGroup
-        fields = ['id', 'name']
-
-class ExerciseListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ExerciseList()
-        fields = ['id', 'name']
