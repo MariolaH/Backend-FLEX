@@ -40,9 +40,13 @@ class WorkoutViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action in ["create", "update", "partial_update", "destroy"]:
             return WorkoutWriteSerializer
+        
         return WorkoutReadSerializer
 
     def get_queryset(self):
         user = self.request.user
-        return Workout.objects.filter(id=user)
+        return Workout.objects.filter(user=user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 # Create your views here.

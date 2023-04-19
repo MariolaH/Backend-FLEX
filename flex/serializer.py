@@ -22,14 +22,14 @@ class WorkoutReadSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'exercises']
 
 class WorkoutWriteSerializer(serializers.ModelSerializer):
-    exercises = ExerciseListSerializer(many=True, required=False, read_only=True)
+    exercises = serializers.PrimaryKeyRelatedField(many=True, required=False, queryset=ExerciseList.objects.all())
     class Meta:
         model = Workout
         fields = ['id', 'name', 'exercises']
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    workouts = WorkoutWriteSerializer(many=True, required=False)
+    # workouts = WorkoutWriteSerializer(many=True, required=False)
     email = serializers.EmailField(
         required=True
     )
@@ -38,7 +38,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser
-        fields = ('email', 'username', 'password', 'first_name', 'last_name', 'workouts')
+        fields = ('email', 'username', 'password', 'first_name', 'last_name')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
