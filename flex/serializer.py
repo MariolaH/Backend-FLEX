@@ -10,7 +10,7 @@ class MuscleGroupSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 class ExerciseListSerializer(serializers.ModelSerializer):
-    muscles = MuscleGroupSerializer(many=True)
+    muscles = MuscleGroupSerializer(many=True, required=False)
     class Meta:
         model = ExerciseList
         fields = ['id', 'name', 'muscles']
@@ -22,15 +22,14 @@ class WorkoutReadSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'exercises']
 
 class WorkoutWriteSerializer(serializers.ModelSerializer):
-    exercises = ExerciseListSerializer(many=True)
+    exercises = ExerciseListSerializer(many=True, required=False, read_only=True)
     class Meta:
         model = Workout
         fields = ['id', 'name', 'exercises']
 
-        # ./manage.py dumpdata admin.logentry > logentry.json
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    workouts = WorkoutWriteSerializer(many=True)
+    workouts = WorkoutWriteSerializer(many=True, required=False)
     email = serializers.EmailField(
         required=True
     )

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
-    workouts = models.ManyToManyField('Workout')
+    # workouts = models.ManyToManyField('Workout')
 
     def __str__(self):
         return self.username
@@ -23,6 +23,7 @@ class ExerciseList(models.Model):
 class Workout(models.Model):
     name = models.CharField(max_length=500, null=False, blank=False)
     exercises = models.ManyToManyField('ExerciseList')
+    user = models.ForeignKey('CustomUser', on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.name
