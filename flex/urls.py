@@ -10,6 +10,7 @@ router = routers.DefaultRouter()
 router.register(r'musclegroup', MuscleGroupViewSet)
 router.register(r'exerciselist', ExerciseListViewSet)
 router.register(r'workout', WorkoutViewSet)
+router.register(r'workout-exercises', WorkoutExercisesViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

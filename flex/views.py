@@ -32,7 +32,29 @@ class MuscleGroupViewSet(viewsets.ModelViewSet):
 
 class ExerciseListViewSet(viewsets.ModelViewSet):
     queryset = ExerciseList.objects.all()
-    serializer_class = ExerciseListSerializer
+    # serializer_class = ExerciseListSerializer
+
+    def get_serializer_class(self):
+        if self.action in ["create", "update", "partial_update", "destroy"]:
+            return ExerciseListWriteSerializer
+        return ExerciseListReadSerializer
+
+    # def get_queryset(self):
+    #     workout = self.request.workout
+    #     if workout.is_authenticated:
+    #         return ExerciseList.objects.filter(workout=workout)
+    #     return ExerciseList.objects.all()
+
+    # def perform_create(self, serializer):
+    #     serializer.save(workout=self.request.workout)
+
+    # def partial_update(self, request, pk=None):
+    #     print(request.data)
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance, data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data)
 
 class WorkoutViewSet(viewsets.ModelViewSet):
     queryset = Workout.objects.all()
@@ -40,13 +62,26 @@ class WorkoutViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action in ["create", "update", "partial_update", "destroy"]:
             return WorkoutWriteSerializer
-        
         return WorkoutReadSerializer
 
     def get_queryset(self):
         user = self.request.user
-        return Workout.objects.filter(user=user)
+        if user.is_authenticated:
+            return Workout.objects.filter(user=user)
+        
+        return Workout.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-# Create your views here.
+
+    def partial_update(self, request, pk=None):
+        print(request.data)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+class WorkoutExercisesViewSet(viewsets.ModelViewSet):
+    queryset = WorkoutExercises.objects.all()
+    serializer_class = WorkoutExerciseWriteSerializer
