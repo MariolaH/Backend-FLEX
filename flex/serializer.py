@@ -59,7 +59,7 @@ class WorkoutExerciseWriteSerializer(serializers.ModelSerializer):
         )
 
 class WorkoutReadSerializer(serializers.ModelSerializer):
-    # exercises = ExerciseListSerializer(many=True, read_only=True)
+    # exercises = WorkoutExerciseReadSerializer(many=True, read_only=True)
 
     exercises = serializers.SerializerMethodField()
     class Meta:
@@ -68,8 +68,28 @@ class WorkoutReadSerializer(serializers.ModelSerializer):
 
     def get_exercises(self, obj):
         "obj is a Member instance. Returns list of dicts"""
-        qset = WorkoutExercises.objects.filter(workout=obj)
-        return [WorkoutExerciseReadSerializer(e).data for e in qset]
+        exercises = []
+        exercise_ids = list(obj.exercises.all().values_list('id', flat=True))
+        exercises_queryset = ExerciseList.objects.filter(id__in=exercise_ids).distinct()
+
+        for exercise in exercises_queryset:
+            recorded_data = []
+            records = WorkoutExercises.objects.filter(workout=obj, exercise=exercise)
+            for r in records:
+                info = {
+                    "sets": r.sets,
+                    "reps": r.reps,
+                    "weight": r.weight,
+                    "created_at": r.created_at,
+                }
+                recorded_data.append(info)
+            exercise_info = {
+                "id": exercise.id,
+                "name": exercise.name,
+                "recorded_data": recorded_data,
+            }
+            exercises.append(exercise_info)
+        return exercises
 
 
 class WorkoutWriteSerializer(serializers.ModelSerializer):
