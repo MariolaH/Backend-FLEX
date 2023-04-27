@@ -39,22 +39,6 @@ class ExerciseListViewSet(viewsets.ModelViewSet):
             return ExerciseListWriteSerializer
         return ExerciseListReadSerializer
 
-    # def get_queryset(self):
-    #     workout = self.request.workout
-    #     if workout.is_authenticated:
-    #         return ExerciseList.objects.filter(workout=workout)
-    #     return ExerciseList.objects.all()
-
-    # def perform_create(self, serializer):
-    #     serializer.save(workout=self.request.workout)
-
-    # def partial_update(self, request, pk=None):
-    #     print(request.data)
-    #     instance = self.get_object()
-    #     serializer = self.get_serializer(instance, data=request.data, partial=True)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(serializer.data)
 
 class WorkoutViewSet(viewsets.ModelViewSet):
     queryset = Workout.objects.all()

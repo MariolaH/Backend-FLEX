@@ -43,7 +43,7 @@ class WorkoutExerciseReadSerializer(serializers.ModelSerializer):
     
     def get_recorded_data(self, obj):
         qset = WorkoutExercises.objects.filter(workout=obj.workout, exercise=obj.exercise)
-        return [{ "sets": e.sets,  "reps": e.reps, "weight": e.weight } for e in qset]
+        return [{ "sets": e.sets,  "reps": e.reps, "weight": e.weight, "created_at": e.created_at } for e in qset]
 
 class WorkoutExerciseWriteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -55,6 +55,7 @@ class WorkoutExerciseWriteSerializer(serializers.ModelSerializer):
             'sets',
             'reps',
             'weight',
+            'created_at',
         )
 
 class WorkoutReadSerializer(serializers.ModelSerializer):

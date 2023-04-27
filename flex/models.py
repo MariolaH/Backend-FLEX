@@ -32,11 +32,13 @@ class Workout(models.Model):
         return self.name
 
 class WorkoutExercises(models.Model):
-    workout = models.ForeignKey('Workout', on_delete=models.PROTECT)
-    exercise = models.ForeignKey('ExerciseList', on_delete=models.PROTECT)
-    sets = models.IntegerField(null=True, blank=True, default=3)
-    reps = models.IntegerField(null=True, blank=True, default=8)
-    weight = models.IntegerField(null=True, blank=True, default=25)
+    workout = models.ForeignKey('Workout', on_delete=models.CASCADE)
+    exercise = models.ForeignKey('ExerciseList', on_delete=models.CASCADE)
+    sets = models.IntegerField(null=True, blank=True)
+    reps = models.IntegerField(null=True, blank=True)
+    weight = models.IntegerField(null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True)
+
 
 
 
