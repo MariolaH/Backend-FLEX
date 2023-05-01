@@ -75,6 +75,7 @@ ALLOWED_HOSTS = ['*']
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https://.*\.gitpod\.io$",
     r"^https://.*\.web\.app$",
+    r"^https://.*\.vercel\.app$",
 ]
 
 AUTH_USER_MODEL = 'flex.CustomUser'
